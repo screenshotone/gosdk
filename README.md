@@ -5,7 +5,9 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/screenshotone/gosdk)](https://goreportcard.com/report/github.com/screenshotone/gosdk)
 [![GoDoc](https://godoc.org/https://godoc.org/github.com/screenshotone/gosdk?status.svg)](https://godoc.org/github.com/screenshotone/gosdk)
 
-An official [Screenshot API (screenshotone.com)](https://screenshotone.com/) client for Go. 
+An official [Screenshot API](https://screenshotone.com/) client for Go. 
+
+It takes minutes to start taking screenshots. Just [sign up](https://screenshotone.com/) to get access and secret keys, import the client, and you are ready to go. 
 
 ## Installation
 
