@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -54,9 +55,23 @@ func (client *Client) GenerateTakeURL(options *TakeOptions) (*url.URL, error) {
 }
 
 // Take takes screenshot and returns image or error if the request failed.
-func (c *Client) Take(ctx context.Context, options *TakeOptions) error {
+func (client *Client) Take(ctx context.Context, options *TakeOptions) (io.ReadCloser, error) {
+	u, err := client.GenerateTakeURL(options)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate URL: %w", err)
+	}
 
-	return nil
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to instantiate HTTP request: %w", err)
+	}
+
+	response, err := client.httpClient.Do(request)
+	if err != nil {
+		return nil, fmt.Errorf("failed to execute HTTP request: %w", err)
+	}
+
+	return response.Body, nil
 }
 
 // TakeOptions for the ScreenshotOne.com API take method.
