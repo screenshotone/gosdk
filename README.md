@@ -12,14 +12,14 @@ It takes minutes to start taking screenshots. Just [sign up](https://screenshoto
 ## Installation
 
 ```shell
-go get github.com/krasun/paddle
+go get github.com/screenshotone/gosdk
 ```
 
 ## Usage
 
 Import the library: 
 ```go
-import "github.com/krasun/paddle"
+import screenshots "github.com/screenshotone/gosdk"
 ```
 
 Generate a screenshot URL without executing request: 
