@@ -1,4 +1,4 @@
 module github.com/screenshotone/gosdk
 
-go 1.11
+go 1.13
 
