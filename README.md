@@ -59,7 +59,7 @@ options := screenshots.NewTakeOptions("https://example.com").
     BlockAds(true).
     BlockTrackers(true)
 
-image, err := client.Take(context.TODO(), options)
+image, _, err := client.Take(context.TODO(), options)
 if err != nil {
     // ...
 }
