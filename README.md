@@ -64,14 +64,16 @@ if err != nil {
     // ...
 }
 
-defer image.Close()
 out, err := os.Create("example.png")
 if err != nil {
     // ...
 }
-
 defer out.Close()
-io.Copy(out, image)
+
+_, err = out.Write(out, image)
+if err != nil {
+    // ...
+}
 ```
 
 ## Tests 
