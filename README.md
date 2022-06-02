@@ -1,4 +1,4 @@
-# paddle
+# gosdk
 
 [![Build](https://github.com/screenshotone/gosdk/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/screenshotone/gosdk/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/screenshotone/gosdk/branch/main/graph/badge.svg?token=rh8BDdHc2v)](https://codecov.io/gh/screenshotone/gosdk)
