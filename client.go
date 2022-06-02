@@ -141,8 +141,8 @@ func (o *TakeOptions) ViewportHeight(viewportHeight int) *TakeOptions {
 }
 
 // DeviceScaleFactor sets the device scale factor. Acceptable value is one of: 1, 2 or 3.
-func (o *TakeOptions) DeviceScaleFactor(viewportHeight int) *TakeOptions {
-	o.query.Add("device_scale_factor", strconv.Itoa(viewportHeight))
+func (o *TakeOptions) DeviceScaleFactor(deviceScaleFactor int) *TakeOptions {
+	o.query.Add("device_scale_factor", strconv.Itoa(deviceScaleFactor))
 
 	return o
 }
