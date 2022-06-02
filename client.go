@@ -195,9 +195,9 @@ func (o *TakeOptions) BlockRequests(blockRequests ...string) *TakeOptions {
 
 // BlockResources blocks loading resources by type.
 // Available resource types are: "document", "stylesheet", "image", "media", "font", "script", "texttrack", "xhr", "fetch", "eventsource", "websocket", "manifest", "other".
-func (o *TakeOptions) BlockResources(blockRequests ...string) *TakeOptions {
-	for _, blockRequest := range blockRequests {
-		o.query.Add("block_resources", blockRequest)
+func (o *TakeOptions) BlockResources(blockResources ...string) *TakeOptions {
+	for _, blockResource := range blockResources {
+		o.query.Add("block_resources", blockResource)
 	}
 
 	return o
