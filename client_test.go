@@ -70,6 +70,10 @@ func TestTakeURLGeneratesURL(t *testing.T) {
 			screenshots.NewTakeOptions("https://scalabledeveloper.com").Cache(true).CacheKey("test").CacheTTL(10000),
 			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&cache=true&cache_key=test&cache_ttl=10000&url=https%3A%2F%2Fscalabledeveloper.com&signature=49dbe28dbc268f30528c72359bc2cfa41cd292d766e97043fe8fa3475e6a27b1",
 		},
+		{
+			screenshots.NewTakeWithHTML("<h1>Hello, world!</h1>"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&html=%3Ch1%3EHello%2C+world%21%3C%2Fh1%3E&signature=2e9559eaeb5ff8a6b0aa85ddeaaf2e65d8e7cf636741964488784864327e3901",
+		},
 	}
 
 	client, err := screenshots.NewClient("IVmt2ghj9TG_jQ", "Sxt94yAj9aQSgg")

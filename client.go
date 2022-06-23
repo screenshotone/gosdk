@@ -94,7 +94,37 @@ func NewTakeOptions(pageURL string) *TakeOptions {
 	query := url.Values{}
 	query.Add("url", pageURL)
 
+	return NewTakeWithURL(pageURL)
+}
+
+// Returns options for the ScreenshotOne.com API take method.
+func NewTakeWithURL(pageURL string) *TakeOptions {
+	query := url.Values{}
+	query.Add("url", pageURL)
+
 	return &TakeOptions{query: query}
+}
+
+// Returns options for the ScreenshotOne.com API take method.
+func NewTakeWithHTML(html string) *TakeOptions {
+	query := url.Values{}
+	query.Add("html", html)
+
+	return &TakeOptions{query: query}
+}
+
+// Selector is a CSS-like selector of the element to take a screenshot of.
+func (o *TakeOptions) Selector(selector string) *TakeOptions {
+	o.query.Add("selector", selector)
+
+	return o
+}
+
+// ErrorOnSelectorNotFound determines the behavior of what to do when selector is not found.
+func (o *TakeOptions) ErrorOnSelectorNotFound(errorOn bool) *TakeOptions {
+	o.query.Add("error_on_selector_not_found", strconv.FormatBool(errorOn))
+
+	return o
 }
 
 // FullPage renders the full page.
@@ -107,6 +137,20 @@ func (o *TakeOptions) FullPage(fullPage bool) *TakeOptions {
 // Format sets response format, one of: "png", "jpeg", "webp" or "jpg".
 func (o *TakeOptions) Format(format string) *TakeOptions {
 	o.query.Add("format", format)
+
+	return o
+}
+
+// Styles specifies custom CSS styles for the page.
+func (o *TakeOptions) Styles(styles string) *TakeOptions {
+	o.query.Add("styles", styles)
+
+	return o
+}
+
+// Scripts specifies custom scripts for the page.
+func (o *TakeOptions) Scripts(scripts string) *TakeOptions {
+	o.query.Add("scripts", scripts)
 
 	return o
 }
