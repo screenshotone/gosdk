@@ -1,7 +1,6 @@
 # gosdk
 
 [![Build](https://github.com/screenshotone/gosdk/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/screenshotone/gosdk/actions/workflows/build.yml)
-[![codecov](https://codecov.io/gh/screenshotone/gosdk/branch/main/graph/badge.svg?token=rh8BDdHc2v)](https://codecov.io/gh/screenshotone/gosdk)
 [![Go Report Card](https://goreportcard.com/badge/github.com/screenshotone/gosdk)](https://goreportcard.com/report/github.com/screenshotone/gosdk)
 [![GoDoc](https://godoc.org/https://godoc.org/github.com/screenshotone/gosdk?status.svg)](https://godoc.org/github.com/screenshotone/gosdk)
 
