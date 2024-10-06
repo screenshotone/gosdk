@@ -357,24 +357,28 @@ func (o *TakeOptions) CaptureBeyondViewport(capture bool) *TakeOptions {
 // FullPageScroll controls whether to scroll to the bottom of the page and back to the top.
 func (o *TakeOptions) FullPageScroll(scroll bool) *TakeOptions {
 	o.query.Add("full_page_scroll", strconv.FormatBool(scroll))
+
 	return o
 }
 
 // FullPageScrollDelay sets the delay for full page scrolling.
 func (o *TakeOptions) FullPageScrollDelay(delay int) *TakeOptions {
 	o.query.Add("full_page_scroll_delay", strconv.Itoa(delay))
+
 	return o
 }
 
 // FullPageScrollBy sets how much to scroll by for full page screenshots.
 func (o *TakeOptions) FullPageScrollBy(pixels int) *TakeOptions {
 	o.query.Add("full_page_scroll_by", strconv.Itoa(pixels))
+
 	return o
 }
 
 // FullPageMaxHeight sets the maximum height for full page screenshots.
 func (o *TakeOptions) FullPageMaxHeight(height int) *TakeOptions {
 	o.query.Add("full_page_max_height", strconv.Itoa(height))
+
 	return o
 }
 
@@ -383,227 +387,265 @@ func (o *TakeOptions) HideSelectors(selectors ...string) *TakeOptions {
 	for _, selector := range selectors {
 		o.query.Add("hide_selectors", selector)
 	}
+
 	return o
 }
 
 // Click specifies a selector to click before taking the screenshot.
 func (o *TakeOptions) Click(selector string) *TakeOptions {
 	o.query.Add("click", selector)
+
 	return o
 }
 
 // ScrollIntoView scrolls the page to ensure the given selector is in view.
 func (o *TakeOptions) ScrollIntoView(selector string) *TakeOptions {
 	o.query.Add("scroll_into_view", selector)
+
 	return o
 }
 
 // ScrollIntoViewAdjustTop adjusts the top position after scrolling into view.
 func (o *TakeOptions) ScrollIntoViewAdjustTop(pixels int) *TakeOptions {
 	o.query.Add("scroll_into_view_adjust_top", strconv.Itoa(pixels))
+
 	return o
 }
 
 // DarkMode sets the dark mode for the screenshot.
 func (o *TakeOptions) DarkMode(enabled bool) *TakeOptions {
 	o.query.Add("dark_mode", strconv.FormatBool(enabled))
+
 	return o
 }
 
 // ReducedMotion sets the reduced motion mode for the screenshot.
 func (o *TakeOptions) ReducedMotion(enabled bool) *TakeOptions {
 	o.query.Add("reduced_motion", strconv.FormatBool(enabled))
+
 	return o
 }
 
 // MediaType sets the media type for the screenshot.
 func (o *TakeOptions) MediaType(mediaType string) *TakeOptions {
 	o.query.Add("media_type", mediaType)
+
 	return o
 }
 
 // ViewportMobile sets whether the meta viewport tag is taken into account.
 func (o *TakeOptions) ViewportMobile(mobile bool) *TakeOptions {
 	o.query.Add("viewport_mobile", strconv.FormatBool(mobile))
+
 	return o
 }
 
 // ViewportHasTouch sets whether the viewport supports touch events.
 func (o *TakeOptions) ViewportHasTouch(hasTouch bool) *TakeOptions {
 	o.query.Add("viewport_has_touch", strconv.FormatBool(hasTouch))
+
 	return o
 }
 
 // ViewportLandscape sets whether the viewport is in landscape mode.
 func (o *TakeOptions) ViewportLandscape(landscape bool) *TakeOptions {
 	o.query.Add("viewport_landscape", strconv.FormatBool(landscape))
+
 	return o
 }
 
 // ViewportDevice sets the device for viewport emulation.
 func (o *TakeOptions) ViewportDevice(device string) *TakeOptions {
 	o.query.Add("viewport_device", device)
+
 	return o
 }
 
 // BlockCookieBanners blocks cookie banners and privacy notices.
 func (o *TakeOptions) BlockCookieBanners(block bool) *TakeOptions {
 	o.query.Add("block_cookie_banners", strconv.FormatBool(block))
+
 	return o
 }
 
 // BlockBannersByHeuristics blocks banners using heuristics.
 func (o *TakeOptions) BlockBannersByHeuristics(block bool) *TakeOptions {
 	o.query.Add("block_banners_by_heuristics", strconv.FormatBool(block))
+
 	return o
 }
 
 // BlockChats blocks chat widgets.
 func (o *TakeOptions) BlockChats(block bool) *TakeOptions {
 	o.query.Add("block_chats", strconv.FormatBool(block))
+
 	return o
 }
 
 // BypassCSP bypasses Content Security Policy.
 func (o *TakeOptions) BypassCSP(bypass bool) *TakeOptions {
 	o.query.Add("bypass_csp", strconv.FormatBool(bypass))
+
 	return o
 }
 
 // Proxy sets a custom proxy for the request.
 func (o *TakeOptions) Proxy(proxyURL string) *TakeOptions {
 	o.query.Add("proxy", proxyURL)
+
 	return o
 }
 
 // IPCountryCode sets the country for IP-based geolocation.
 func (o *TakeOptions) IPCountryCode(countryCode string) *TakeOptions {
 	o.query.Add("ip_country_code", countryCode)
+
 	return o
 }
 
 // ResponseType sets the type of response to return.
 func (o *TakeOptions) ResponseType(responseType string) *TakeOptions {
 	o.query.Add("response_type", responseType)
+
 	return o
 }
 
 // Store enables storing the screenshot in S3-compatible storage.
 func (o *TakeOptions) Store(store bool) *TakeOptions {
 	o.query.Add("store", strconv.FormatBool(store))
+
 	return o
 }
 
 // StoragePath sets the storage path for the screenshot.
 func (o *TakeOptions) StoragePath(path string) *TakeOptions {
 	o.query.Add("storage_path", path)
+
 	return o
 }
 
 // StorageACL sets the ACL for the stored screenshot.
 func (o *TakeOptions) StorageACL(acl string) *TakeOptions {
 	o.query.Add("storage_acl", acl)
+
 	return o
 }
 
 // StorageReturnLocation enables returning the storage location.
 func (o *TakeOptions) StorageReturnLocation(returnLocation bool) *TakeOptions {
 	o.query.Add("storage_return_location", strconv.FormatBool(returnLocation))
+
 	return o
 }
 
 // Async enables asynchronous execution of the request.
 func (o *TakeOptions) Async(async bool) *TakeOptions {
 	o.query.Add("async", strconv.FormatBool(async))
+
 	return o
 }
 
 // WebhookURL sets the URL for the webhook.
 func (o *TakeOptions) WebhookURL(url string) *TakeOptions {
 	o.query.Add("webhook_url", url)
+
 	return o
 }
 
 // WebhookSign controls whether to sign the webhook request body.
 func (o *TakeOptions) WebhookSign(sign bool) *TakeOptions {
 	o.query.Add("webhook_sign", strconv.FormatBool(sign))
+
 	return o
 }
 
 // RequestGPURendering requests GPU rendering for the screenshot.
 func (o *TakeOptions) RequestGPURendering(request bool) *TakeOptions {
 	o.query.Add("request_gpu_rendering", strconv.FormatBool(request))
+
 	return o
 }
 
 // FailIfGPURenderingFails forces the request to fail if GPU rendering fails.
 func (o *TakeOptions) FailIfGPURenderingFails(fail bool) *TakeOptions {
 	o.query.Add("fail_if_gpu_rendering_fails", strconv.FormatBool(fail))
+
 	return o
 }
 
 // MetadataImageSize enables returning the actual image size metadata.
 func (o *TakeOptions) MetadataImageSize(enable bool) *TakeOptions {
 	o.query.Add("metadata_image_size", strconv.FormatBool(enable))
+
 	return o
 }
 
 // MetadataFonts enables returning the fonts used by the website.
 func (o *TakeOptions) MetadataFonts(enable bool) *TakeOptions {
 	o.query.Add("metadata_fonts", strconv.FormatBool(enable))
+
 	return o
 }
 
 // MetadataOpenGraph enables returning the Open Graph metadata.
 func (o *TakeOptions) MetadataOpenGraph(enable bool) *TakeOptions {
 	o.query.Add("metadata_open_graph", strconv.FormatBool(enable))
+
 	return o
 }
 
 // MetadataPageTitle enables returning the page title.
 func (o *TakeOptions) MetadataPageTitle(enable bool) *TakeOptions {
 	o.query.Add("metadata_page_title", strconv.FormatBool(enable))
+
 	return o
 }
 
 // MetadataHTTPResponseHeaders enables returning the HTTP response headers.
 func (o *TakeOptions) MetadataHTTPResponseHeaders(enable bool) *TakeOptions {
 	o.query.Add("metadata_http_response_headers", strconv.FormatBool(enable))
+
 	return o
 }
 
 // MetadataHTTPResponseStatusCode enables returning the HTTP response status code.
 func (o *TakeOptions) MetadataHTTPResponseStatusCode(enable bool) *TakeOptions {
 	o.query.Add("metadata_http_response_status_code", strconv.FormatBool(enable))
+
 	return o
 }
 
 // MetadataContent enables returning the content of the page.
 func (o *TakeOptions) MetadataContent(enable bool) *TakeOptions {
 	o.query.Add("metadata_content", strconv.FormatBool(enable))
+
 	return o
 }
 
 // OpenAIAPIKey sets the OpenAI API key for vision integration.
 func (o *TakeOptions) OpenAIAPIKey(key string) *TakeOptions {
 	o.query.Add("openai_api_key", key)
+
 	return o
 }
 
 // VisionPrompt sets the prompt for OpenAI vision integration.
 func (o *TakeOptions) VisionPrompt(prompt string) *TakeOptions {
 	o.query.Add("vision_prompt", prompt)
+
 	return o
 }
 
 // VisionMaxTokens sets the maximum number of tokens for OpenAI vision integration.
 func (o *TakeOptions) VisionMaxTokens(tokens int) *TakeOptions {
 	o.query.Add("vision_max_tokens", strconv.Itoa(tokens))
+
 	return o
 }
 
 // FailIfContentContains forces the request to fail if the specified text is matched on the page.
 func (o *TakeOptions) FailIfContentContains(text string) *TakeOptions {
 	o.query.Add("fail_if_content_contains", text)
+
 	return o
 }
