@@ -162,6 +162,20 @@ func (o *TakeOptions) ImageQuality(imageQuality int) *TakeOptions {
 	return o
 }
 
+// ImageHeight sets the height of the resulting image (pixels).
+func (o *TakeOptions) ImageHeight(imageHeight int) *TakeOptions {
+	o.query.Add("image_height", strconv.Itoa(imageHeight))
+
+	return o
+}
+
+// ImageWidth sets the width of the resulting image (pixels).
+func (o *TakeOptions) ImageWidth(imageWidth int) *TakeOptions {
+	o.query.Add("image_width", strconv.Itoa(imageWidth))
+
+	return o
+}
+
 // OmitBackground renders a transparent background for the image. Works only if the site has not defined background color.
 // Available for the following response formats: "png", "webp".
 func (o *TakeOptions) OmitBackground(omitBackground bool) *TakeOptions {
