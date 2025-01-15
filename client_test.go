@@ -74,6 +74,38 @@ func TestTakeURLGeneratesURL(t *testing.T) {
 			screenshots.NewTakeWithHTML("<h1>Hello, world!</h1>"),
 			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&html=%3Ch1%3EHello%2C+world%21%3C%2Fh1%3E&signature=2e9559eaeb5ff8a6b0aa85ddeaaf2e65d8e7cf636741964488784864327e3901",
 		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				PDFPrintBackground(true).
+				PDFFitOnePage(true).
+				PDFLandscape(true).
+				PDFPaperFormat("a4"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&pdf_fit_one_page=true&pdf_landscape=true&pdf_paper_format=a4&pdf_print_background=true&url=https%3A%2F%2Fexample.com&signature=2be4758936d2392a1776fdac4e0bb6dc4ad3aab1a380bfdb2c34eae6899ca556",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				ClipX(100).
+				ClipY(200).
+				ClipWidth(300).
+				ClipHeight(400),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&clip_height=400&clip_width=300&clip_x=100&clip_y=200&url=https%3A%2F%2Fexample.com&signature=8c6815f9c6123177a65826b51f14aa774bd54e075a3e04156a0bee2e9b2650c7",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				FullPageAlgorithm("by_sections").
+				SelectorScrollIntoView(true).
+				IgnoreHostErrors(true),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&full_page_algorithm=by_sections&ignore_host_errors=true&selector_scroll_into_view=true&url=https%3A%2F%2Fexample.com&signature=8c7dd91d28a8289d75affde1aff70e6a73afa594a0557b55e1176fcabc321e26",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				StorageEndpoint("https://storage.example.com").
+				StorageAccessKeyID("access123").
+				StorageSecretAccessKey("secret456").
+				StorageBucket("mybucket").
+				StorageClass("standard"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&storage_access_key_id=access123&storage_bucket=mybucket&storage_class=standard&storage_endpoint=https%3A%2F%2Fstorage.example.com&storage_secret_access_key=secret456&url=https%3A%2F%2Fexample.com&signature=0b27223cf5ec9f47f43d902603e9b9578ca850fca9d5638e944eaef67c51d9d2",
+		},
 	}
 
 	client, err := screenshots.NewClient("IVmt2ghj9TG_jQ", "Sxt94yAj9aQSgg")
@@ -84,6 +116,27 @@ func TestTakeURLGeneratesURL(t *testing.T) {
 
 		equals(t, testCase.expectedURL, u.String())
 	}
+}
+
+func TestGenerateUnsignedTakeURL(t *testing.T) {
+	client, err := screenshots.NewClient("test-key", "")
+	ok(t, err)
+
+	options := screenshots.NewTakeOptions("https://example.com")
+	u, err := client.GenerateUnsignedTakeURL(options)
+	ok(t, err)
+
+	expected := "https://api.screenshotone.com/take?access_key=test-key&url=https%3A%2F%2Fexample.com"
+	equals(t, expected, u.String())
+}
+
+func TestGenerateTakeURLRequiresSecretKey(t *testing.T) {
+	client, err := screenshots.NewClient("test-key", "")
+	ok(t, err)
+
+	options := screenshots.NewTakeOptions("https://example.com")
+	_, err = client.GenerateTakeURL(options)
+	errorred(t, err, "secret key is required")
 }
 
 // errorred fails the test if an err is nil or message is not found in the message string.

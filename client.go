@@ -29,8 +29,12 @@ func NewClient(accessKey, secretKey string) (*Client, error) {
 	return client, nil
 }
 
-// GenerateTakeURL generates URL for taking screenshots, but does not send any request.
+// GenerateTakeURL generates URL for taking screenshots with request signing.
 func (client *Client) GenerateTakeURL(options *TakeOptions) (*url.URL, error) {
+	if client.secretKey == "" {
+		return nil, fmt.Errorf("secret key is required for signed URLs")
+	}
+
 	// generate query
 	query := options.query
 	query.Set("access_key", client.accessKey)
@@ -44,6 +48,22 @@ func (client *Client) GenerateTakeURL(options *TakeOptions) (*url.URL, error) {
 	}
 	signature := hex.EncodeToString(hash.Sum(nil))
 	queryString += "&signature=" + signature
+
+	u, err := url.Parse(baseURL + takePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse URL \"%s\": %w", baseURL+takePath, err)
+	}
+	u.RawQuery = queryString
+
+	return u, nil
+}
+
+// GenerateUnsignedTakeURL generates URL for taking screenshots without signing the request.
+func (client *Client) GenerateUnsignedTakeURL(options *TakeOptions) (*url.URL, error) {
+	// generate query
+	query := options.query
+	query.Set("access_key", client.accessKey)
+	queryString := query.Encode()
 
 	u, err := url.Parse(baseURL + takePath)
 	if err != nil {
@@ -661,5 +681,113 @@ func (o *TakeOptions) VisionMaxTokens(tokens int) *TakeOptions {
 func (o *TakeOptions) FailIfContentContains(text string) *TakeOptions {
 	o.query.Add("fail_if_content_contains", text)
 
+	return o
+}
+
+// PDFPrintBackground sets whether to print background graphics in PDF.
+func (o *TakeOptions) PDFPrintBackground(pdfPrintBackground bool) *TakeOptions {
+	o.query.Add("pdf_print_background", strconv.FormatBool(pdfPrintBackground))
+	return o
+}
+
+// PDFFitOnePage tries to fit the website on one page for PDF output.
+func (o *TakeOptions) PDFFitOnePage(pdfFitOnePage bool) *TakeOptions {
+	o.query.Add("pdf_fit_one_page", strconv.FormatBool(pdfFitOnePage))
+	return o
+}
+
+// PDFLandscape sets PDF orientation to landscape.
+func (o *TakeOptions) PDFLandscape(pdfLandscape bool) *TakeOptions {
+	o.query.Add("pdf_landscape", strconv.FormatBool(pdfLandscape))
+	return o
+}
+
+// PDFPaperFormat specifies the paper format for PDF output.
+func (o *TakeOptions) PDFPaperFormat(format string) *TakeOptions {
+	o.query.Add("pdf_paper_format", format)
+	return o
+}
+
+// ClipX sets the x coordinate of the area to clip.
+func (o *TakeOptions) ClipX(x int) *TakeOptions {
+	o.query.Add("clip_x", strconv.Itoa(x))
+	return o
+}
+
+// ClipY sets the y coordinate of the area to clip.
+func (o *TakeOptions) ClipY(y int) *TakeOptions {
+	o.query.Add("clip_y", strconv.Itoa(y))
+	return o
+}
+
+// ClipWidth sets the width of the area to clip.
+func (o *TakeOptions) ClipWidth(width int) *TakeOptions {
+	o.query.Add("clip_width", strconv.Itoa(width))
+	return o
+}
+
+// ClipHeight sets the height of the area to clip.
+func (o *TakeOptions) ClipHeight(height int) *TakeOptions {
+	o.query.Add("clip_height", strconv.Itoa(height))
+	return o
+}
+
+// FullPageAlgorithm sets the algorithm for full page screenshots.
+func (o *TakeOptions) FullPageAlgorithm(algorithm string) *TakeOptions {
+	o.query.Add("full_page_algorithm", algorithm)
+	return o
+}
+
+// SelectorScrollIntoView controls scrolling behavior when taking element screenshots.
+func (o *TakeOptions) SelectorScrollIntoView(enable bool) *TakeOptions {
+	o.query.Add("selector_scroll_into_view", strconv.FormatBool(enable))
+	return o
+}
+
+// IgnoreHostErrors allows taking screenshots even when site returns error status codes.
+func (o *TakeOptions) IgnoreHostErrors(ignore bool) *TakeOptions {
+	o.query.Add("ignore_host_errors", strconv.FormatBool(ignore))
+	return o
+}
+
+// ErrorOnClickSelectorNotFound controls error behavior when click selector is not found.
+func (o *TakeOptions) ErrorOnClickSelectorNotFound(errorOn bool) *TakeOptions {
+	o.query.Add("error_on_click_selector_not_found", strconv.FormatBool(errorOn))
+	return o
+}
+
+// StorageEndpoint sets custom S3-compatible storage endpoint.
+func (o *TakeOptions) StorageEndpoint(endpoint string) *TakeOptions {
+	o.query.Add("storage_endpoint", endpoint)
+	return o
+}
+
+// StorageAccessKeyID sets storage access key ID.
+func (o *TakeOptions) StorageAccessKeyID(keyID string) *TakeOptions {
+	o.query.Add("storage_access_key_id", keyID)
+	return o
+}
+
+// StorageSecretAccessKey sets storage secret access key.
+func (o *TakeOptions) StorageSecretAccessKey(key string) *TakeOptions {
+	o.query.Add("storage_secret_access_key", key)
+	return o
+}
+
+// StorageBucket sets storage bucket name.
+func (o *TakeOptions) StorageBucket(bucket string) *TakeOptions {
+	o.query.Add("storage_bucket", bucket)
+	return o
+}
+
+// StorageClass sets storage class for the object.
+func (o *TakeOptions) StorageClass(class string) *TakeOptions {
+	o.query.Add("storage_class", class)
+	return o
+}
+
+// MetadataIcon enables returning the favicon metadata.
+func (o *TakeOptions) MetadataIcon(enable bool) *TakeOptions {
+	o.query.Add("metadata_icon", strconv.FormatBool(enable))
 	return o
 }
