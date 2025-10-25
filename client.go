@@ -140,9 +140,24 @@ func NewTakeWithHTML(html string) *TakeOptions {
 	return &TakeOptions{query: query}
 }
 
+// Returns options for the ScreenshotOne.com API take method.
+func NewTakeWithMarkdown(markdown string) *TakeOptions {
+	query := url.Values{}
+	query.Add("markdown", markdown)
+
+	return &TakeOptions{query: query}
+}
+
 // Selector is a CSS-like selector of the element to take a screenshot of.
 func (o *TakeOptions) Selector(selector string) *TakeOptions {
 	o.query.Add("selector", selector)
+
+	return o
+}
+
+// SelectorAlgorithm sets the algorithm for finding selectors.
+func (o *TakeOptions) SelectorAlgorithm(algorithm string) *TakeOptions {
+	o.query.Add("selector_algorithm", algorithm)
 
 	return o
 }
@@ -178,6 +193,13 @@ func (o *TakeOptions) Styles(styles string) *TakeOptions {
 // Scripts specifies custom scripts for the page.
 func (o *TakeOptions) Scripts(scripts string) *TakeOptions {
 	o.query.Add("scripts", scripts)
+
+	return o
+}
+
+// ScriptsWaitUntil sets when to wait for scripts to complete.
+func (o *TakeOptions) ScriptsWaitUntil(waitUntil string) *TakeOptions {
+	o.query.Add("scripts_wait_until", waitUntil)
 
 	return o
 }
@@ -600,9 +622,37 @@ func (o *TakeOptions) WebhookSign(sign bool) *TakeOptions {
 	return o
 }
 
+// WebhookErrors enables error details in webhook requests.
+func (o *TakeOptions) WebhookErrors(enable bool) *TakeOptions {
+	o.query.Add("webhook_errors", strconv.FormatBool(enable))
+
+	return o
+}
+
 // RequestGPURendering requests GPU rendering for the screenshot.
 func (o *TakeOptions) RequestGPURendering(request bool) *TakeOptions {
 	o.query.Add("request_gpu_rendering", strconv.FormatBool(request))
+
+	return o
+}
+
+// IncludeShadowDOM includes shadow DOM elements in the content.
+func (o *TakeOptions) IncludeShadowDOM(include bool) *TakeOptions {
+	o.query.Add("include_shadow_dom", strconv.FormatBool(include))
+
+	return o
+}
+
+// AttachmentName sets the attachment name for the response.
+func (o *TakeOptions) AttachmentName(name string) *TakeOptions {
+	o.query.Add("attachment_name", name)
+
+	return o
+}
+
+// ExternalIdentifier sets an external identifier for the request.
+func (o *TakeOptions) ExternalIdentifier(identifier string) *TakeOptions {
+	o.query.Add("external_identifier", identifier)
 
 	return o
 }
@@ -691,6 +741,20 @@ func (o *TakeOptions) FailIfContentContains(text string) *TakeOptions {
 	return o
 }
 
+// FailIfContentMissing forces the request to fail if the specified text is missing on the page.
+func (o *TakeOptions) FailIfContentMissing(text string) *TakeOptions {
+	o.query.Add("fail_if_content_missing", text)
+
+	return o
+}
+
+// FailIfRequestFailed forces the request to fail if any network request fails during page loading.
+func (o *TakeOptions) FailIfRequestFailed(pattern string) *TakeOptions {
+	o.query.Add("fail_if_request_failed", pattern)
+
+	return o
+}
+
 // PDFPrintBackground sets whether to print background graphics in PDF.
 func (o *TakeOptions) PDFPrintBackground(pdfPrintBackground bool) *TakeOptions {
 	o.query.Add("pdf_print_background", strconv.FormatBool(pdfPrintBackground))
@@ -712,6 +776,36 @@ func (o *TakeOptions) PDFLandscape(pdfLandscape bool) *TakeOptions {
 // PDFPaperFormat specifies the paper format for PDF output.
 func (o *TakeOptions) PDFPaperFormat(format string) *TakeOptions {
 	o.query.Add("pdf_paper_format", format)
+	return o
+}
+
+// PDFMargin sets the margin for PDF output.
+func (o *TakeOptions) PDFMargin(margin string) *TakeOptions {
+	o.query.Add("pdf_margin", margin)
+	return o
+}
+
+// PDFMarginTop sets the top margin for PDF output.
+func (o *TakeOptions) PDFMarginTop(margin string) *TakeOptions {
+	o.query.Add("pdf_margin_top", margin)
+	return o
+}
+
+// PDFMarginRight sets the right margin for PDF output.
+func (o *TakeOptions) PDFMarginRight(margin string) *TakeOptions {
+	o.query.Add("pdf_margin_right", margin)
+	return o
+}
+
+// PDFMarginBottom sets the bottom margin for PDF output.
+func (o *TakeOptions) PDFMarginBottom(margin string) *TakeOptions {
+	o.query.Add("pdf_margin_bottom", margin)
+	return o
+}
+
+// PDFMarginLeft sets the left margin for PDF output.
+func (o *TakeOptions) PDFMarginLeft(margin string) *TakeOptions {
+	o.query.Add("pdf_margin_left", margin)
 	return o
 }
 

@@ -110,6 +110,71 @@ func TestTakeURLGeneratesURL(t *testing.T) {
 				StorageClass("standard"),
 			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&storage_access_key_id=access123&storage_bucket=mybucket&storage_class=standard&storage_endpoint=https%3A%2F%2Fstorage.example.com&storage_secret_access_key=secret456&url=https%3A%2F%2Fexample.com&signature=0b27223cf5ec9f47f43d902603e9b9578ca850fca9d5638e944eaef67c51d9d2",
 		},
+		{
+			screenshots.NewTakeWithMarkdown("# Hello, world!"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&markdown=%23+Hello%2C+world%21&signature=c3db63d8cd9e8a2fe271ee0732f83f6794dffbb0c6c450c6f7e1c5a161af2e9c",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				Selector(".main-content").
+				SelectorAlgorithm("css").
+				SelectorScrollIntoView(false),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&selector=.main-content&selector_algorithm=css&selector_scroll_into_view=false&url=https%3A%2F%2Fexample.com&signature=88e334fe6fca041c9c01837c0ea411289d36ee66372f208e532f313124543614",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				IncludeShadowDOM(true).
+				AttachmentName("screenshot.png").
+				ExternalIdentifier("test-123"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&attachment_name=screenshot.png&external_identifier=test-123&include_shadow_dom=true&url=https%3A%2F%2Fexample.com&signature=3786439e841140c9212fdb857da71b3cb53b561cde458b14f9fe466d4b44a2a3",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				PDFMargin("10mm").
+				PDFMarginTop("20mm").
+				PDFMarginRight("15mm").
+				PDFMarginBottom("20mm").
+				PDFMarginLeft("15mm"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&pdf_margin=10mm&pdf_margin_bottom=20mm&pdf_margin_left=15mm&pdf_margin_right=15mm&pdf_margin_top=20mm&url=https%3A%2F%2Fexample.com&signature=961d33ac4d0d1a84e8645940b26ebdbe657bf70af37e1adcbb91939901f8647b",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				Scripts("console.log('test')").
+				ScriptsWaitUntil("load"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&scripts=console.log%28%27test%27%29&scripts_wait_until=load&url=https%3A%2F%2Fexample.com&signature=d397a80040701dff1adfd7bfb1b59eb8a75ec8b915c725cbc020ec42891801be",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				WebhookURL("https://webhook.example.com").
+				WebhookSign(false).
+				WebhookErrors(true),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&url=https%3A%2F%2Fexample.com&webhook_errors=true&webhook_sign=false&webhook_url=https%3A%2F%2Fwebhook.example.com&signature=5fe9d675437c884be3837f6bc86033c97f4f87f829b3543ab5a602e529baee6c",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				FailIfContentMissing("required text").
+				FailIfContentContains("error").
+				FailIfRequestFailed("*example*"),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&fail_if_content_contains=error&fail_if_content_missing=required+text&fail_if_request_failed=%2Aexample%2A&url=https%3A%2F%2Fexample.com&signature=66d4d45477d7287e53fcb61b03142124ff1fd57d73f75035745acae0768046b8",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				RequestGPURendering(true).
+				FailIfGPURenderingFails(true),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&fail_if_gpu_rendering_fails=true&request_gpu_rendering=true&url=https%3A%2F%2Fexample.com&signature=fcb47fbf83a5a58adf06ee350abea998526f74af94bcc9758961f361f8c340ce",
+		},
+		{
+			screenshots.NewTakeOptions("https://example.com").
+				MetadataImageSize(true).
+				MetadataFonts(true).
+				MetadataIcon(true).
+				MetadataOpenGraph(true).
+				MetadataPageTitle(true).
+				MetadataContent(true).
+				MetadataHTTPResponseHeaders(true).
+				MetadataHTTPResponseStatusCode(true),
+			"https://api.screenshotone.com/take?access_key=IVmt2ghj9TG_jQ&metadata_content=true&metadata_fonts=true&metadata_http_response_headers=true&metadata_http_response_status_code=true&metadata_icon=true&metadata_image_size=true&metadata_open_graph=true&metadata_page_title=true&url=https%3A%2F%2Fexample.com&signature=462c9cf201cf1e7223ec5d95498f77f361c197a581a1115c79a5aa82e6257dbd",
+		},
 	}
 
 	client, err := screenshots.NewClient("IVmt2ghj9TG_jQ", "Sxt94yAj9aQSgg")
