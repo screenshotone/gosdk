@@ -1,7 +1,11 @@
 package gosdk_test
 
 import (
+	"bytes"
+	"context"
 	"fmt"
+	"io"
+	"net/http"
 	"path/filepath"
 	"reflect"
 	"runtime"
@@ -139,6 +143,58 @@ func TestGenerateTakeURLRequiresSecretKey(t *testing.T) {
 	errorred(t, err, "secret key is required")
 }
 
+func TestTakeAcceptsOKStatusCode(t *testing.T) {
+	mockClient := &http.Client{
+		Transport: &mockRoundTripper{
+			statusCode: http.StatusOK,
+			body:       []byte("test image data"),
+		},
+	}
+
+	client, err := screenshots.NewClientWithHTTPClient("test-key", "test-secret", mockClient)
+	ok(t, err)
+
+	options := screenshots.NewTakeOptions("https://example.com")
+	image, _, err := client.Take(context.Background(), options)
+	ok(t, err)
+
+	equals(t, "test image data", string(image))
+}
+
+func TestTakeAcceptsCreatedStatusCode(t *testing.T) {
+	mockClient := &http.Client{
+		Transport: &mockRoundTripper{
+			statusCode: http.StatusCreated,
+			body:       []byte(""),
+		},
+	}
+
+	client, err := screenshots.NewClientWithHTTPClient("test-key", "test-secret", mockClient)
+	ok(t, err)
+
+	options := screenshots.NewTakeOptions("https://example.com")
+	image, _, err := client.Take(context.Background(), options)
+	ok(t, err)
+
+	equals(t, "", string(image))
+}
+
+func TestTakeRejectsOtherStatusCodes(t *testing.T) {
+	mockClient := &http.Client{
+		Transport: &mockRoundTripper{
+			statusCode: http.StatusBadRequest,
+			body:       []byte("bad request"),
+		},
+	}
+
+	client, err := screenshots.NewClientWithHTTPClient("test-key", "test-secret", mockClient)
+	ok(t, err)
+
+	options := screenshots.NewTakeOptions("https://example.com")
+	_, _, err = client.Take(context.Background(), options)
+	errorred(t, err, "the server returned a response: 400 Bad Request")
+}
+
 // errorred fails the test if an err is nil or message is not found in the message string.
 func errorred(tb testing.TB, err error, message string) {
 	if err == nil {
@@ -172,4 +228,18 @@ func equals(tb testing.TB, exp, act interface{}) {
 		fmt.Printf("\033[31m%s:%d:\n\n\texp: %#v\n\n\tgot: %#v\033[39m\n\n", filepath.Base(file), line, exp, act)
 		tb.FailNow()
 	}
+}
+
+type mockRoundTripper struct {
+	statusCode int
+	body       []byte
+}
+
+func (m *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	return &http.Response{
+		StatusCode: m.statusCode,
+		Status:     http.StatusText(m.statusCode),
+		Body:       io.NopCloser(bytes.NewReader(m.body)),
+		Header:     make(http.Header),
+	}, nil
 }

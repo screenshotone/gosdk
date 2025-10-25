@@ -29,6 +29,13 @@ func NewClient(accessKey, secretKey string) (*Client, error) {
 	return client, nil
 }
 
+// NewClientWithHTTPClient returns new API client for the ScreenshotOne.com API with a custom HTTP client.
+func NewClientWithHTTPClient(accessKey, secretKey string, httpClient *http.Client) (*Client, error) {
+	client := &Client{accessKey, secretKey, httpClient}
+
+	return client, nil
+}
+
 // GenerateTakeURL generates URL for taking screenshots with request signing.
 func (client *Client) GenerateTakeURL(options *TakeOptions) (*url.URL, error) {
 	if client.secretKey == "" {
@@ -91,7 +98,7 @@ func (client *Client) Take(ctx context.Context, options *TakeOptions) ([]byte, *
 		return nil, nil, fmt.Errorf("failed to execute HTTP request: %w", err)
 	}
 
-	if response.StatusCode != http.StatusOK {
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated {
 		return nil, response, fmt.Errorf("the server returned a response: %d %s", response.StatusCode, response.Status)
 	}
 
