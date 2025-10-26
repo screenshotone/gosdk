@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"reflect"
@@ -304,7 +304,7 @@ func (m *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) 
 	return &http.Response{
 		StatusCode: m.statusCode,
 		Status:     http.StatusText(m.statusCode),
-		Body:       io.NopCloser(bytes.NewReader(m.body)),
+		Body:       ioutil.NopCloser(bytes.NewReader(m.body)),
 		Header:     make(http.Header),
 	}, nil
 }
